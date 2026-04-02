@@ -1,0 +1,14 @@
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\bin\Debug\net10.0\SOLIDPrinciples.exe
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\bin\Debug\net10.0\SOLIDPrinciples.deps.json
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\bin\Debug\net10.0\SOLIDPrinciples.runtimeconfig.json
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\bin\Debug\net10.0\SOLIDPrinciples.dll
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\bin\Debug\net10.0\SOLIDPrinciples.pdb
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.AssemblyInfoInputs.cache
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.AssemblyInfo.cs
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.dll
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\refint\SOLIDPrinciples.dll
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.pdb
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\SOLIDPrinciples.genruntimeconfig.cache
+C:\Users\Lenovo LOQ\Desktop\UTA\5 Software\Patrones de Software\examenPracticaRamos\obj\Debug\net10.0\ref\SOLIDPrinciples.dll

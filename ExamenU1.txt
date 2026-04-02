@@ -1,0 +1,273 @@
+PASO 1: Creación de la Interfaz de Métodos de Pago
+Todo buen diseño basado en SOLID empieza definiendo "contratos" (interfaces). Esto nos va a preparar para no depender de implementaciones concretas.
+Lo que debes hacer:
+1.	En tu proyecto SOLIDPrinciples, asegúrate de tener una carpeta llamada Interfaces dentro de la carpeta Application.
+2.	Dentro de la carpeta Interfaces, crea un archivo llamado IPaymentMethodRAJA.cs.
+3.	Pega el siguiente código en ese archivo:
+
+namespace SOLIDPrinciples.Application.Interfaces;
+
+public interface IPaymentMethodRAJA
+{
+    void ProcessPaymentRAJA(double amountRAJA);
+    string GetMethodNameRAJA();
+}
+
+¿Qué principio SOLID estamos aplicando aquí y por qué?
+1.	Principio de Inversión de Dependencias (DIP): Este principio dice que los módulos de alto nivel (como el gestor que procesará los pagos) no deben depender de los módulos de bajo nivel (como el pago por "Tarjeta" o "Efectivo"), sino de abstracciones. Al crear esta interfaz, nuestro sistema central dependerá de IPaymentMethodRAJA y no de las clases específicas.
+2.	Principio de Abierto/Cerrado (OCP - Preparación): Al tener esta interfaz, en el futuro podremos añadir 10 formas nuevas de pago (Criptomonedas, Cheques, etc.) simplemente creando clases nuevas que implementen esta interfaz, sin tener que tocar o modificar el código que ya existe realizando los cobros.
+---
+Nota de Examen: Recuerda hacer tu primer commit para que no pierdas puntos de tiempo. Por ejemplo: git add . git commit -m "RAMOS JAIME: 14H00" (reemplaza con la hora actual en tu país y tus apellidos).
+Dime "Listo" cuando hayas creado este archivo y hecho tu commit, para darte el Paso 2 con la siguiente interfaz.
+
+
+
+PASO 2: Creación de la Interfaz de Canales de Notificación
+El problema nos pide que el sistema notifique por diferentes canales (correo, SMS, WhatsApp). Para cumplir los principios SOLID, necesitamos un "contrato" separado para esto.
+Lo que debes hacer:
+1.	En la misma carpeta Interfaces, crea un nuevo archivo llamado INotificationChannelRAJA.cs.
+2.	Pega el siguiente código:
+
+namespace SOLIDPrinciples.Application.Interfaces;
+
+public interface INotificationChannelRAJA
+{
+    void SendNotificationRAJA(string messageRAJA);
+}
+
+Nota de Examen: Revisa tu reloj. ¿Ya pasaron 15 minutos desde el commit anterior? Si es así, no olvides hacer tu nuevo commit desde la terminal: git add . git commit -m "RAMOS JAIME: 14H15" (usa tus apellidos reales y la hora correspondiente).
+
+
+
+PASO 3: Creación del Modelo de Datos (La Entidad)
+Necesitamos una clase sencilla que represente los datos de la transacción (quién paga y cuánto paga). Las entidades o modelos solo deben transportar datos, no tener lógica compleja de negocio.
+Lo que debes hacer:
+1.	En tu proyecto SOLIDPrinciples, asegúrate de tener una carpeta llamada Models dentro de la carpeta Application (crea la carpeta si no existe).
+2.	Dentro de la carpeta Models, crea un archivo llamado PaymentRequestRAJA.cs.
+3.	Pega el siguiente código:
+
+namespace SOLIDPrinciples.Application.Models;
+
+public class PaymentRequestRAJA
+{
+    public decimal AmountRAJA { get; set; }
+    public string UserNameRAJA { get; set; }
+
+    public PaymentRequestRAJA(decimal amountRAJA, string userNameRAJA)
+    {
+        AmountRAJA = amountRAJA;
+        UserNameRAJA = userNameRAJA;
+    }
+}
+
+Nota de Examen: Recuerda estar pendiente del reloj. Tu profesor verificará la hora de envío. Si ya pasaron 15 minutos desde tu último commit, abre la terminal y ejecuta: git add . git commit -m "RAMOS JAIME: 14H30" (Por supuesto, poniendo la hora que corresponda en el momento exacto).
+
+
+PASO 4: Implementación de Métodos de Pago y Canales de Notificación
+Aquí es donde demostramos cómo nuestro código es extensible. Vamos a crear un par de métodos de pago y un par de formas de notificar. Las pondremos en la carpeta Infrastructure, que suele usarse para implementaciones concretas de servicios externos o específicos.
+Lo que debes hacer:
+1.	En tu proyecto SOLIDPrinciples, asegúrate de tener una carpeta llamada Infrastructure (si no, créala).
+2.	Dentro de Infrastructure, te sugiero crear dos subcarpetas para tener orden: Payments y Notifications.
+A. Creemos los Métodos de Pago: Dentro de Infrastructure/Payments/, crea estos dos archivos:
+CreditCardPaymentRAJA.cs
+
+namespace SOLIDPrinciples.Infrastructure.Payments;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using SOLIDPrinciples.Application.Interfaces;
+
+public class CreditCardPaymentRAJA : IPaymentMethodRAJA
+{
+    public void ProcessPaymentRAJA(double amountRAJA) // Nota: asegúrate que el nombre y parámetros coincidan con tu interfaz IPaymentMethodRAJA
+    {
+        Console.WriteLine($"[Tarjeta de Crédito] RAJA: Procesando pago de ${amountRAJA}...");
+        // Aquí iría la lógica real de conexión con la pasarela (Visa, Mastercard, etc.)
+    }
+
+    public string GetMethodNameRAJA()
+    {
+        return "Tarjeta de Crédito RAJA";
+    }
+}
+
+
+CREAR
+CashPaymentRAJA.cs
+
+namespace SOLIDPrinciples.Infrastructure.Payments
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using SOLIDPrinciples.Application.Interfaces;
+
+    public class CashPaymentRAJA : IPaymentMethodRAJA
+    {
+        public void ProcessPaymentRAJA(double amountRAJA)
+        {
+            Console.WriteLine($"[Efectivo] RAJA: Validando recepción de billetes por ${amountRAJA}...");
+        }
+
+        public string GetMethodNameRAJA()
+        {
+            return "Efectivo RAJA";
+        }
+    }
+}
+
+
+B. Creemos los Canales de Notificación: Dentro de Infrastructure/Notifications/, crea estos dos archivos:
+EmailNotificationRAJA.cs
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using global::SOLIDPrinciples.Application.Interfaces;
+using SOLIDPrinciples.Application.Interfaces;
+
+public class EmailNotificationRAJA : INotificationChannelRAJA
+{
+    public void SendNotificationRAJA(string messageRAJA)
+    {
+        Console.WriteLine($"[Email RAJA] Enviando: {messageRAJA}");
+    }
+}
+
+WhatsappNotificationRAJA.cs
+
+namespace SOLIDPrinciples.Infrastructure.Notifications;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using SOLIDPrinciples.Application.Interfaces;
+
+public class WhatsappNotificationRAJA : INotificationChannelRAJA
+{
+    public void SendNotificationRAJA(string messageRAJA)
+    {
+        Console.WriteLine($"[Whatsapp RAJA] Enviando: {messageRAJA}");
+    }
+}
+
+
+Nota de Examen (¡Super importante!): ¿Cómo vas con el tiempo? Revisa si es hora del siguiente commit: git add . git commit -m "RAMOS JAIME: 14H45" (Anota la hora que marca tu reloj con el formato exacto que te piden).
+
+
+PASO 5: Creación del Servicio de Procesamiento con Inyección de Dependencias
+Este es el corazón de la aplicación. Aquí uniremos el pago y la notificación basándonos en lo que nos pide el examen: "Se debe aplicar inyección de dependencias en el constructor" y "No usar genéricos... puedes usar arreglos normales".
+Dado que queremos enviar notificaciones por diferentes canales a la vez, pasaremos un arreglo normal ([]) de notificaciones, cumpliendo así la restricción de no usar List<T>.
+Lo que debes hacer:
+1.	En tu proyecto SOLIDPrinciples, asegúrate de tener una carpeta llamada Services dentro de la carpeta Application.
+2.	Dentro de la carpeta Services, crea un archivo llamado PaymentProcessorRAJA.cs.
+3.	Pega el siguiente código:
+
+
+namespace SOLIDPrinciples.Application.Services;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using SOLIDPrinciples.Application.Interfaces;
+using SOLIDPrinciples.Application.Models;
+
+public class PaymentProcessorRAJA
+{
+    private readonly IPaymentMethodRAJA _paymentMethodRAJA;
+    private readonly INotificationChannelRAJA [] _notificationChannelRAJA;
+
+    // Constructor que inyecta la estrategia de pago y los canales de notificación
+
+    public PaymentProcessorRAJA(IPaymentMethodRAJA paymentMethodRAJA, INotificationChannelRAJA[] notificationChannelRAJA)
+    {
+        _paymentMethodRAJA = paymentMethodRAJA;
+        _notificationChannelRAJA = notificationChannelRAJA;
+    }
+    public void ExecutePaymentRAJA(PaymentRequestRAJA paymentRequestRAJA)
+    {
+        Console.WriteLine($"\n--- Iniciando transaccion para : {paymentRequestRAJA.UserNameRAJA} ---");
+
+        //Procesar el pago a traves de la interfaz (sin importar si es tarjeta, efectivo, etc)
+        _paymentMethodRAJA.ProcessPaymentRAJA(paymentRequestRAJA.AmountRAJA);
+
+        string resumenRAJA = $"Pago de {paymentRequestRAJA.UserNameRAJA} procesado exitosamente mediante {_paymentMethodRAJA.GetMethodNameRAJA}";
+        Console.WriteLine(resumenRAJA);
+
+        // 2. Notificamos por cada canal configurado (Usando un arreglo simple, no List)
+        Console.WriteLine(" --- Enviando notificaciones ---");
+        for (int i = 0; i < _notificationChannelRAJA.Length; i++)
+        {
+            _notificationChannelRAJA[i].SendNotificationRAJA(resumenRAJA);
+        }
+        Console.WriteLine("--------------------------------------------------\n");
+    }
+}
+
+
+Nota de Examen: ¡Cuidado con la hora! No olvides hacer tu commit correspondiente. Si ya es momento, abre la terminal: git add . git commit -m "RAMOS JAIME: 15H00" (Coloca la hora actual en tu formato local).
+
+
+PASO 6: Ensamblaje Final en Program.cs (La Raíz de Composición)
+El requerimiento dice: "Los datos (montos, usuarios, tipo de pago, etc.) deben estar inicializados internamente en el código (no ingresados por consola)". También nos pide mostrar un resumen en consola. En Program.cs es donde "conectamos los cables" administrando la Inyección de Dependencias manualmente (esto se conoce como el patrón Composition Root).
+Lo que debes hacer:
+1.	Abre el archivo Program.cs que está en la raíz de tu proyecto SOLIDPrinciples.
+2.	Borra lo que tenga y reemplázalo con el siguiente código:
+
+using System;
+using SOLIDPrinciples.Application.Interfaces;
+using SOLIDPrinciples.Application.Models;
+using SOLIDPrinciples.Application.Services;
+using SOLIDPrinciples.Infrastructure.Notifications;
+using SOLIDPrinciples.Infrastructure.Payments;
+
+Console.WriteLine("=== INICIANDO SISTEMA DE PAGOS RAJA ===\n");
+
+// 1. Definimos los canales de notificación (Arreglo normal, prohibido el uso de List<T>)
+INotificationChannelRAJA[] canalesDeNotificacionRAJA = new INotificationChannelRAJA[]
+{
+    new EmailNotificationRAJA(),
+    new WhatsappNotificationRAJA()
+};
+
+// ==========================================
+// ESCENARIO 1: PAGO CON TARJETA DE CRÉDITO
+// ==========================================
+
+// 2. Instanciamos el método de pago específico
+IPaymentMethodRAJA metodoTarjetaRAJA = new CreditCardPaymentRAJA();
+
+// 3. Inyectamos las dependencias por el constructor al Procesador
+PaymentProcessorRAJA procesadorTarjetaRAJA = new PaymentProcessorRAJA(metodoTarjetaRAJA, canalesDeNotificacionRAJA);
+
+// 4. Creamos los datos de la transacción (Hardcodeados internamente como pide el examen)
+PaymentRequestRAJA peticionTarjetaRAJA = new PaymentRequestRAJA(150.00m, "Juan Pérez");
+
+// 5. Ejecutamos
+procesadorTarjetaRAJA.ExecutePaymentRAJA(peticionTarjetaRAJA);
+
+Console.WriteLine("\n=== PROCESANDO PAGO EN EFECTIVO===\n");
+// ==========================================
+// ESCENARIO 1: PAGO CON TARJETA DE CRÉDITO
+// ==========================================
+
+// 2. Instanciamos el método de pago específico
+IPaymentMethodRAJA metodoEfectivoRAJA = new CashPaymentRAJA();
+
+// 3. Inyectamos las dependencias por el constructor al Procesador
+PaymentProcessorRAJA procesadorEfectivo = new PaymentProcessorRAJA(metodoEfectivoRAJA, canalesDeNotificacionRAJA);
+
+// 4. Creamos los datos de la transacción (Hardcodeados internamente como pide el examen)
+PaymentRequestRAJA peticionEfectivo = new PaymentRequestRAJA(80.00m, "María Gómez");
+
+// 5. Ejecutamos
+procesadorEfectivo.ExecutePaymentRAJA(peticionEfectivo);
+
+Console.WriteLine("=== FIN DEL PROCESAMIENTO ===");
+
+PASOS FINALES PARA CERRAR TU EXAMEN:
+1.	¡Haz una prueba! Ejecuta la aplicación para verificar que todo compile y la salida sea la esperada.
+2.	Commit final: Revisa tu reloj, si toca el próximo commit o si ya terminaste el ejercicio, haz tu último commit con la hora exacta: git add . git commit -m "RAMOS JAIME: 15H15"
+3.	Enviar a GitHub: Sube tus cambios al repositorio remoto: git push -u origin main (o master dependiendo de tu rama base).
+4.	Agrega al profesor: Ve a tu repositorio en github.com -> Settings -> Collaborators -> y agrega un colaborador con el correo: clayaldas@gmail.com.
